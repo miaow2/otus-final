@@ -1,3 +1,4 @@
+from django.conf.urls import include
 from django.urls import path
 from rest_framework import routers
 
@@ -17,6 +18,6 @@ router.register("results", ResultViewSet)
 
 # app_name = "courses-api"
 urlpatterns = [
+    path("", include(router.urls)),
     path("jobs/create/", CreateJobAPI.as_view()),
-] + router.urls
-# urlpatterns = router.urls + custom_urls
+]
