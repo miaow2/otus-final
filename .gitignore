@@ -139,3 +139,5 @@ cython_debug/
 
 node_modules/
 netwatcher/static
+/netwatcher/netwatcher/configuration.py
+/netwatcher/netwatcher/ldap_config.py
