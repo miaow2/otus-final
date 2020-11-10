@@ -1,5 +1,4 @@
 import os
-
 from django.core.exceptions import ImproperlyConfigured
 
 
@@ -34,6 +33,9 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django_filters",
     "rest_framework",
+    "rest_framework.authtoken",
+    # "django_celery_beat",
+    "django_celery_results",
     "jobs",
 ]
 
@@ -126,10 +128,13 @@ REST_FRAMEWORK = {
     ),
     "DEFAULT_AUTHENTICATION_CLASSES": [
         # "rest_framework.authentication.SessionAuthentication",
-        # "rest_framework.authentication.TokenAuthentication",
+        "rest_framework.authentication.TokenAuthentication",
         # "rest_framework.authentication.BasicAuthentication",
     ],
     "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
     "PAGE_SIZE": 50,
 }
+
+# This sets the django-celery-results backend
+CELERY_RESULT_BACKEND = "django-db"

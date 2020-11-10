@@ -2,8 +2,7 @@ from django.contrib.auth.models import User
 from django.db.models import Q
 import django_filters
 
-from .choises import RESULT_STATUS
-from .models import Departament, Group, Result
+from .models import Departament, Group, Job
 
 
 class GroupFilterSet(django_filters.FilterSet):
@@ -24,16 +23,12 @@ class GroupFilterSet(django_filters.FilterSet):
         return queryset.filter(Q(departament__name__icontains=value)).distinct()
 
 
-class ResultFilterSet(django_filters.FilterSet):
+class JobFilterSet(django_filters.FilterSet):
     group_id = django_filters.ModelMultipleChoiceFilter(
         queryset=Group.objects.all(),
     )
     group = django_filters.CharFilter(
         method="group_search",
-    )
-    status = django_filters.MultipleChoiceFilter(
-        choices=RESULT_STATUS,
-        null_value=None,
     )
     user = django_filters.ModelMultipleChoiceFilter(
         queryset=User.objects.all(),
@@ -42,7 +37,7 @@ class ResultFilterSet(django_filters.FilterSet):
     )
 
     class Meta:
-        model = Result
+        model = Job
         fields = ["id"]
 
     def group_search(self, queryset, name, value):

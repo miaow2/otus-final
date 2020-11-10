@@ -1,6 +1,5 @@
 from django.db import models
-
-from .choises import RESULT_STATUS
+from django_celery_results.models import TaskResult
 
 
 class Departament(models.Model):
@@ -28,13 +27,19 @@ class Group(models.Model):
         return self.name
 
 
-class Result(models.Model):
+class Job(models.Model):
+    task = models.OneToOneField(
+        to=TaskResult,
+        on_delete=models.CASCADE,
+        related_name="job",
+        blank=True,
+        null=True,
+    )
+    task_uuid = models.CharField(
+        max_length=50,
+    )
     created = models.DateTimeField(
         auto_now_add=True,
-    )
-    status = models.CharField(
-        max_length=50,
-        choices=RESULT_STATUS,
     )
     group = models.ForeignKey(
         to="jobs.Group",
@@ -46,10 +51,12 @@ class Result(models.Model):
         on_delete=models.CASCADE,
         related_name="results",
     )
-    data = models.JSONField(
-        blank=True,
-        null=True,
-    )
 
     class Meta:
         ordering = ["-created"]
+
+    def __str__(self):
+        return f"<Job: {self.task_uuid}>"
+
+    def __repr__(self):
+        return f"<Job: {self.task_uuid}>"

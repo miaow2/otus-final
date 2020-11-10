@@ -1,9 +1,10 @@
 from rest_framework import serializers
 
-from jobs.models import Departament, Group, Result
+from jobs.models import Departament, Group, Job
 from .nested_serializers import (
     NestedDepartamentSerializer,
     NestedGroupSerializer,
+    NestedTaskResultSerializer,
     NestedUserSerializer,
 )
 
@@ -22,10 +23,11 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
         fields = ["id", "name", "departament"]
 
 
-class ResultSerializer(serializers.HyperlinkedModelSerializer):
+class JobSerializer(serializers.HyperlinkedModelSerializer):
     group = NestedGroupSerializer()
     user = NestedUserSerializer()
+    task = NestedTaskResultSerializer()
 
     class Meta:
-        model = Result
-        fields = ["id", "created", "status", "group", "user", "data"]
+        model = Job
+        fields = ["id", "created", "task_uuid", "group", "user", "task"]

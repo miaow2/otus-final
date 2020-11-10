@@ -1,12 +1,18 @@
 import hvac
 
+from celery import shared_task
 from django.conf import settings
 from nornir import InitNornir
 from nornir.core.plugins.inventory import InventoryPluginRegister
 
 from .nornir_dcbox import DCBoxInventory
+import time
+
+# запуск из папки где manage.py
+# celery -A netwatcher worker --beat --scheduler django --loglevel=info
 
 
+@shared_task
 def get_devices(group):
 
     # vault = hvac.Client(url=settings.VAULT_ADDR, token=settings.VAULT_TOKEN)
@@ -39,3 +45,8 @@ def get_devices(group):
     )
     # nr.inventory.defaults.username = login_data["default_username"]
     # nr.inventory.defaults.password = login_data["default_password"]
+    result = {"hosts": list()}
+    for d in nr.inventory.hosts:
+        result["hosts"].append(d)
+
+    return result

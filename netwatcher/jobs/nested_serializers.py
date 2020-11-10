@@ -1,12 +1,13 @@
 from django.contrib.auth.models import User
-from django.core.exceptions import ObjectDoesNotExist
-from rest_framework.serializers import ModelSerializer, ValidationError
+from django_celery_results.models import TaskResult
+from rest_framework.serializers import ModelSerializer
 
-from jobs.models import Departament, Group, Result
+from jobs.models import Departament, Group
 
 __all__ = [
     "NestedDepartamentSerializer",
     "NestedGroupSerializer",
+    "NestedTaskResultSerializer",
     "NestedUserSerializer",
 ]
 
@@ -27,3 +28,9 @@ class NestedUserSerializer(ModelSerializer):
     class Meta:
         model = User
         fields = ["id", "username"]
+
+
+class NestedTaskResultSerializer(ModelSerializer):
+    class Meta:
+        model = TaskResult
+        fields = ["id", "task_id", "status", "date_done", "result"]
