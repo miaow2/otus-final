@@ -34,8 +34,8 @@ INSTALLED_APPS = [
     "django_filters",
     "rest_framework",
     "rest_framework.authtoken",
-    # "django_celery_beat",
     "django_celery_results",
+    "frontend",
     "jobs",
 ]
 

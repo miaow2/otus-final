@@ -46,7 +46,9 @@ class CreateTaskAPI(CreateModelMixin, GenericAPIView):
             response = {"group": f"Group {request.data['group']} does not exist."}
             return Response(response, status=status.HTTP_404_NOT_FOUND)
 
-        task = get_devices.apply_async(args=(request.data["group"],))
+        task = get_devices.apply_async(
+            args=(request.data["group"], request.data["command"])
+        )
         Job.objects.create(
             task_uuid=task.task_id,
             group=group,
