@@ -12,7 +12,7 @@ from .nested_serializers import (
 class DepartamentSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Departament
-        fields = ["id", "name"]
+        fields = ["id", "name", "groups_count"]
 
 
 class GroupSerializer(serializers.HyperlinkedModelSerializer):

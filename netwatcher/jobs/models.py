@@ -11,6 +11,10 @@ class Departament(models.Model):
     def __str__(self):
         return self.name
 
+    @property
+    def groups_count(self):
+        return self.groups.count()
+
 
 class Group(models.Model):
     name = models.CharField(
