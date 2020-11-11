@@ -19,11 +19,8 @@ SECRET_KEY = getattr(configuration, "SECRET_KEY")
 DEBUG = getattr(configuration, "DEBUG")
 VAULT_ADDR = getattr(configuration, "VAULT_ADDR")
 VAULT_TOKEN = getattr(configuration, "VAULT_TOKEN")
-DCBOX_URL = getattr(configuration, "DCBOX_URL")
-DCBOX_TOKEN = getattr(configuration, "DCBOX_TOKEN")
 
 # Application definition
-
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -31,6 +28,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "corsheaders",
     "django_filters",
     "rest_framework",
     "rest_framework.authtoken",
@@ -40,6 +38,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -70,10 +69,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "netwatcher.wsgi.application"
 
-
 # Database
-# https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
@@ -83,8 +79,6 @@ DATABASES = {
 
 
 # Password validation
-# https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
@@ -102,8 +96,6 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # Internationalization
-# https://docs.djangoproject.com/en/2.2/topics/i18n/
-
 LANGUAGE_CODE = "en-us"
 
 TIME_ZONE = "Europe/Moscow"
@@ -116,7 +108,7 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.2/howto/static-files/
+# STATIC_ROOT = os.path.join(BASE_DIR, "/static")
 STATIC_ROOT = BASE_DIR + "/static"
 STATIC_URL = "/static/"
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "project-static"),)
@@ -138,3 +130,6 @@ REST_FRAMEWORK = {
 
 # This sets the django-celery-results backend
 CELERY_RESULT_BACKEND = "django-db"
+
+# Enable CORS headers
+CORS_ORIGIN_ALLOW_ALL = True
