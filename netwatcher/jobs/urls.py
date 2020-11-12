@@ -26,5 +26,5 @@ router.register("jobs", JobViewSet)
 urlpatterns = [
     path("", include(router.urls)),
     path("tasks/", CreateTaskAPI.as_view()),
-    path("tasks/<slug:task_id>", GetTaskAPI.as_view()),
+    path("tasks/<slug:task_id>/", GetTaskAPI.as_view()),
 ]
