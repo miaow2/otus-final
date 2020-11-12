@@ -10,7 +10,7 @@
 
 export default class NetWatcherService {
 
-  getAllResources = async (url = '', method = 'GET', token = '') => {
+  getResources = async (url = '', method = 'GET', token = '') => {
     const response = await fetch(url, {
       method,
       headers: {
