@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import Spinner from '../spinner';
 import withNetWatcherService from '../hoc';
+import { fetchDepts } from '../../actions/home';
 
 const HomeView = ({ depts }) => {
 
@@ -13,7 +16,7 @@ const HomeView = ({ depts }) => {
             <h4 className="card-title">{item.name}</h4>
             <ul className="list-group" style={{ fontSize: '18px' }}>
               <li className="list-group-item d-flex justify-content-between align-items-center border-0">
-                <a href="#">Groups</a>
+                <Link to={`depts/${item.id}`}>Groups</Link>
                 <span className="badge badge-primary badge-pill">{item.groups_count}</span>
               </li>
             </ul>
@@ -30,23 +33,36 @@ const HomeView = ({ depts }) => {
   );
 };
 
-const HomeContainer = ({ netwatcherService }) => {
-
-  const [depts, setDepts] = useState([]);
-  const [isLoaded, setIsLoaded] = useState(false);
+const HomeContainer = ({ deptsList, fetchDepts }) => {
 
   useEffect(() => {
-    const url = 'api/departaments/';
-    netwatcherService.getAllResources(url)
-      .then((data) => {
-        setDepts(data.results);
-        setIsLoaded(true);
-      });
+    const url = '/api/departaments/';
+    fetchDepts(url);
   }, []);
 
-  const content = isLoaded ? <HomeView depts={depts} /> : <Spinner />;
+  const { depts, loading } = deptsList
 
-  return content;
+  if (loading) {
+    return <Spinner />
+  };
+
+  // if (error) {
+  //   return <ErrorIndicator />
+  // };
+
+  return <HomeView depts={depts} />;
 };
 
-export default withNetWatcherService()(HomeContainer);
+const mapStateToProps = (state) => ({
+  deptsList: state.deptsList
+});
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+
+  const { netwatcherService } = ownProps;
+  return {
+    fetchDepts: fetchDepts(netwatcherService, dispatch)
+  };
+};
+
+export default withNetWatcherService()(connect(mapStateToProps, mapDispatchToProps)(HomeContainer));
