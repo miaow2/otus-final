@@ -1,5 +1,4 @@
 from celery.result import AsyncResult
-from django_celery_results.models import TaskResult
 from rest_framework import status
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated

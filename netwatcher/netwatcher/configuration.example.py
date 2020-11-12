@@ -1,5 +1,6 @@
 import os
 
+
 # Hashicorp Vault info
 VAULT_ADDR = os.getenv("VAULT_ADDR")
 VAULT_TOKEN = os.getenv("VAULT_TOKEN")

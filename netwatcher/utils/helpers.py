@@ -32,7 +32,6 @@ def route_devices(task, command: str, login_data: dict) -> None:
         #     "enos": platforms.backup_lenovo_blade_switch,
     }
 
-    # вызов функции на основании платформы
     if platform_dict.get(task.host.platform):
         platform_dict.get(task.host.platform)(task, command, login_data)
     else:
