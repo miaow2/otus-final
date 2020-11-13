@@ -119,7 +119,7 @@ class DCBoxInventory:
                 serialized_device["data"].pop("custom_fields")
 
             # Attempt to add 'platform' based of value in 'slug'
-            if device["paltform"]:
+            if device["platform"]:
                 serialized_device["platform"] = (
                     device["platform"]["netmiko_type"]
                     if device["platform"]["netmiko_type"]

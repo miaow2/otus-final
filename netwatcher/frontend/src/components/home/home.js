@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import Spinner from '../spinner';
-import withNetWatcherService from '../hoc';
 import { fetchDepts } from '../../actions/home';
 
 const HomeView = ({ depts }) => {
@@ -57,12 +56,11 @@ const mapStateToProps = (state) => ({
   deptsList: state.deptsList
 });
 
-const mapDispatchToProps = (dispatch, ownProps) => {
+const mapDispatchToProps = (dispatch) => {
 
-  const { netwatcherService } = ownProps;
   return {
-    fetchDepts: fetchDepts(netwatcherService, dispatch),
+    fetchDepts: fetchDepts(dispatch)
   };
 };
 
-export default withNetWatcherService()(connect(mapStateToProps, mapDispatchToProps)(HomeContainer));
+export default connect(mapStateToProps, mapDispatchToProps)(HomeContainer);

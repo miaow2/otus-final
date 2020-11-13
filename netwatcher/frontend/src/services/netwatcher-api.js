@@ -44,6 +44,13 @@ export default class NetWatcherService {
       headers,
       body: JSON.stringify(data)
     });
+
+    // if (!response.ok) {
+    //   // throw new Error(`Could not fetch ${url}, received ${response.status} - ${response.statusText}`)
+    //   throw new Error(await response.json())
+    //   // return Promise.reject(new Error(response.statusText))
+    // }
+
     return await response.json();
   };
 

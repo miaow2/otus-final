@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
-import withNetWatcherService from '../hoc';
 import { loginUser } from '../../actions/auth';
 
 const Login = ({ isAuthenticated, loginUser }) => {
@@ -64,12 +63,4 @@ const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated
 });
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-
-  const { netwatcherService } = ownProps;
-  return {
-    loginUser: loginUser(netwatcherService, dispatch),
-  };
-};
-
-export default withNetWatcherService()(connect(mapStateToProps, mapDispatchToProps)(Login));
+export default connect(mapStateToProps, { loginUser })(Login);

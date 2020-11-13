@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 import {
   FETCH_DEPTS_FAIL,
   FETCH_DEPTS_SUCCESS,
@@ -24,10 +26,17 @@ const deptsError = (error) => {
   }
 };
 
-export const fetchDepts = (netwatcherService, dispatch) => (url) => {
+export const fetchDepts = (dispatch) => (url) => {
+
   dispatch(deptsRequested());
-  netwatcherService.getResources(url)
-    .then((res) => res.json())
-    .then((data) => dispatch(deptsLoaded(data.results)))
-    .catch((err) => dispatch(deptsError(err)));
+
+  axios
+    .get(url)
+    .then((res) => dispatch(deptsLoaded(res.data.results)))
+    .catch((err) => dispatch(deptsError(err)))
+  // dispatch(deptsRequested());
+  // netwatcherService.getResources(url)
+  //   .then((res) => res.json())
+  //   .then((data) => dispatch(deptsLoaded(data.results)))
+  //   .catch((err) => dispatch(deptsError(err)));
 };

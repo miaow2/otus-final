@@ -1,4 +1,6 @@
-// import { createMessage } from './messages'
+import axios from 'axios';
+
+import { createMessage, returnErrors } from './messages'
 import {
   USER_LOADING,
   USER_LOADED,
@@ -9,28 +11,21 @@ import {
   GET_ERRORS,
   CHANGE_TOKEN_SUCCESS
 } from './types';
+import { getConfig } from './utils';
 
-export const loadUser = (netwatcherService) => (dispatch, getState) => {
+export const loadUser = () => (dispatch, getState) => {
 
   dispatch({
     type: USER_LOADING
   });
 
-  const url = '/api/auth/user';
-  const token = getState().auth.token
-
-  netwatcherService.getResources(url, token)
+  axios
+    .get('/api/auth/user', getConfig(getState))
     .then((res) => {
-      if (!res.ok) {
-        throw new Error(`Could not fetch ${url}, received ${res.status}, ${res.json()}`)
-      };
-      return res.json();
-    })
-    .then((data) => {
       dispatch({
         type: USER_LOADED,
-        payload: data,
-      })
+        payload: res.data,
+      });
     })
     .catch((err) => {
       dispatch({
@@ -39,24 +34,36 @@ export const loadUser = (netwatcherService) => (dispatch, getState) => {
     });
 };
 
-export const loginUser = (netwatcherService, dispatch) => (username, password) => {
+export const loginUser = (username, password) => (dispatch) => {
 
-  const url = '/api/auth/login/';
-  const data = { username, password }
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
 
-  netwatcherService.postResource(url, data)
-    .then((data) => {
-      // dispatch(createMessage({
-      //   loginSuccess: "Login Successful"
-      // }));
-      console.log("data", data)
+  const body = JSON.stringify({ username, password })
+
+  axios
+    .post('/api/auth/login/', body, config)
+    .then((res) => {
+      dispatch(createMessage({
+        loginSuccess: "Login Successful"
+      }));
       dispatch({
         type: LOGIN_SUCCESS,
-        payload: data,
+        payload: res.data,
       });
     })
     .catch((err) => {
-      console.log("err", err)
+      const errors = {
+        msg: err.response.data,
+        status: err.response.status
+      };
+      dispatch({
+        type: GET_ERRORS,
+        payload: errors
+      });
       dispatch({
         type: LOGIN_FAIL
       });
@@ -65,9 +72,9 @@ export const loginUser = (netwatcherService, dispatch) => (username, password) =
 
 export const logoutUser = () => (dispatch) => {
 
-  // dispatch(createMessage({
-  //   logoutSuccess: "Logout Successful"
-  // }));
+  dispatch(createMessage({
+    logoutSuccess: "Logout Successful"
+  }));
 
   dispatch({
     type: LOGOUT_SUCCESS
