@@ -27,6 +27,7 @@ const deptsError = (error) => {
 export const fetchDepts = (netwatcherService, dispatch) => (url) => {
   dispatch(deptsRequested());
   netwatcherService.getResources(url)
+    .then((res) => res.json())
     .then((data) => dispatch(deptsLoaded(data.results)))
     .catch((err) => dispatch(deptsError(err)));
 };

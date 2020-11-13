@@ -22,7 +22,7 @@ router.register("departaments", DepartamentViewSet)
 router.register("groups", GroupViewSet)
 router.register("jobs", JobViewSet)
 
-# app_name = "courses-api"
+app_name = "jobs-api"
 urlpatterns = [
     path("", include(router.urls)),
     path("tasks/", CreateTaskAPI.as_view()),

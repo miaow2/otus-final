@@ -61,7 +61,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
   const { netwatcherService } = ownProps;
   return {
-    fetchDepts: fetchDepts(netwatcherService, dispatch)
+    fetchDepts: fetchDepts(netwatcherService, dispatch),
   };
 };
 

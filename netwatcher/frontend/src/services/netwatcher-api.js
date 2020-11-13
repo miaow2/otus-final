@@ -10,26 +10,41 @@
 
 export default class NetWatcherService {
 
-  getResources = async (url = '', method = 'GET', token = '') => {
+  getConfig = (token) => {
+
+    const headers = {
+      "Content-Type": "application/json",
+      "Accept": "application/json"
+    };
+
+    if (token) {
+      headers["Authorization"] = `Token ${token}`;
+    };
+
+    return headers;
+  };
+
+  getResources = async (url, token = null) => {
+
+    const headers = this.getConfig(token)
+
     const response = await fetch(url, {
-      method,
-      headers: {
-        'Content-Type': 'application/json',
-        'Authoruzation': `Token ${token}`
-      }
+      method: 'GET',
+      headers
+    });
+    return await response;
+  };
+
+  postResource = async (url, data = {}, token = null) => {
+
+    const headers = this.getConfig(token)
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(data)
     });
     return await response.json();
   };
 
-  postResource = async (url = '', method = 'POST', token = '', data = {}) => {
-    const response = await fetch(url, {
-      method,
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Token &{token}`
-      },
-      body: JSON.stringify(data)
-    });
-    return await response.json();
-  }
 };

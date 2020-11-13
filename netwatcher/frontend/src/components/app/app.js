@@ -1,18 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Header from '../header';
 import Home from '../home';
+import Login from '../accounts';
 import NetWatcherService from '../../services/netwatcher-api';
 import { DeptPage } from '../pages';
+import { loadUser } from '../../actions/auth';
 import { NetWatcherServiceProvider } from '../netwatcher-service-context';
 
 import store from '../../store';
 
 const App = () => {
 
-  const netwatcherService = new NetWatcherService()
+  const netwatcherService = new NetWatcherService();
+
+  useEffect(() => {
+    store.dispatch(loadUser(netwatcherService))
+  }, []);
 
   return (
     <Provider store={store}>
@@ -32,7 +38,7 @@ const App = () => {
                 const { id } = match.params
                 return <CoursePage courseId={id} />
               }} /> */}
-              {/* <Route path="/login" component={Login} /> */}
+              <Route path="/login" component={Login} />
               {/* <PrivateRoute path="/profile" component={Profile} /> */}
             </Switch>
           </div>

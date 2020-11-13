@@ -16,7 +16,7 @@ from .api import ChangeTokenAPI, LoginAPI, UserAPI
 # router.register("groups", GroupViewSet)
 # router.register("jobs", JobViewSet)
 
-# app_name = "courses-api"
+app_name = "users-api"
 urlpatterns = [
     # path("", include(router.urls)),
     path("user/", UserAPI.as_view()),

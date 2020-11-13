@@ -38,6 +38,7 @@ const DeptPage = ({ deptId, depts, netwatcherService }) => {
   useEffect(() => {
     const url = `/api/groups/?departament_id=${deptId}`;
     netwatcherService.getResources(url)
+      .then((res) => res.json())
       .then((data) => {
         setGroups(data.results);
         setIsLoaded(true);
