@@ -20,17 +20,7 @@ const DeptView = ({ groups }) => {
         {groups.map((item) => (
           <tr key={item.id}>
             <td>{item.id}</td>
-            {/* <td><Link to={`/groups/${item.id}`}>{item.name}</Link></td> */}
-            <td>
-              <Link to={{
-                pathname: `/groups/${item.id}`,
-                state: {
-                  groupName: item.name
-                }
-              }}>
-                {item.name}
-              </Link>
-            </td>
+            <td><Link to={`/groups/${item.id}`}>{item.name}</Link></td>
             <td>
               <button className="btn btn-danger btn-sm">{' '}Delete</button>
             </td>
@@ -48,8 +38,12 @@ const DeptPage = ({ deptId, depts, netwatcherService }) => {
   const [dept, setDept] = useState({})
 
   useEffect(() => {
-    const [findDept] = depts.filter((item) => item.id == deptId)
-    setDept(findDept)
+    const deptUrl = `/api/departaments/${deptId}/`;
+    netwatcherService.getResources(deptUrl)
+      .then((res) => res.json())
+      .then((data) => {
+        setDept(data);
+      });
     const groupsUrl = `/api/groups/?departament_id=${deptId}`;
     netwatcherService.getResources(groupsUrl)
       .then((res) => res.json())
