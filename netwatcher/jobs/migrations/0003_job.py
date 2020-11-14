@@ -8,24 +8,56 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('django_celery_results', '0007_remove_taskresult_hidden'),
+        ("django_celery_results", "0007_remove_taskresult_hidden"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('jobs', '0002_group'),
+        ("jobs", "0002_group"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Job',
+            name="Job",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('task_uuid', models.CharField(max_length=50)),
-                ('created', models.DateTimeField(auto_now_add=True)),
-                ('group', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='results', to='jobs.group')),
-                ('task', models.OneToOneField(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='job', to='django_celery_results.taskresult')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='results', to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("task_uuid", models.CharField(max_length=50)),
+                ("command", models.CharField(max_length=200)),
+                ("created", models.DateTimeField(auto_now_add=True)),
+                (
+                    "group",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="results",
+                        to="jobs.group",
+                    ),
+                ),
+                (
+                    "task",
+                    models.OneToOneField(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="job",
+                        to="django_celery_results.taskresult",
+                    ),
+                ),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="results",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
             options={
-                'ordering': ['-created'],
+                "ordering": ["-created"],
             },
         ),
     ]

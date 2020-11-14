@@ -52,6 +52,7 @@ class CreateTaskAPI(CreateModelMixin, GenericAPIView):
             task_uuid=task.task_id,
             group=group,
             user=request.user,
+            command=request.data["command"],
         )
 
         response = {

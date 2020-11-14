@@ -30,4 +30,4 @@ class JobSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Job
-        fields = ["id", "created", "task_uuid", "group", "user", "task"]
+        fields = ["id", "created", "task_uuid", "group", "command", "user", "task"]
