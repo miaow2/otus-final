@@ -1,30 +1,46 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
-import Spinner from '../spinner';
+import { PendingSpinner, Spinner } from '../spinners';
 import withNetWatcherService from '../hoc';
 
-const GroupView = ({ groups }) => {
+const GroupView = ({ jobs }) => {
 
   return (
     <table className="table table-striped">
       <thead>
         <tr>
           <th>ID</th>
-          <th>Name</th>
+          <th>Command</th>
+          <th>Status</th>
+          <th>Run By</th>
+          <th>Started</th>
+          <th>Completed</th>
           <th />
         </tr>
       </thead>
       <tbody>
-        {groups.map((item) => (
-          <tr key={item.id}>
-            <td>{item.id}</td>
-            <td>{item.name}</td>
-            <td>
-              <button className="btn btn-danger btn-sm">{' '}Delete</button>
-            </td>
-          </tr>
-        ))}
+        {jobs.map((item) => {
+          const date = new Date(Date.parse(item.created))
+          let completed = "—"
+          if (item.task) {
+            const date_done = new Date(Date.parse(item.task.date_done))
+            completed = `${date_done.toLocaleTimeString()} ${date_done.toLocaleDateString()}`
+          }
+          return (
+            <tr key={item.id}>
+              <td>{item.id}</td>
+              <td>{item.command}</td>
+              <td>{item.task ? item.task.status[0] + item.task.status.slice(1).toLowerCase() : <PendingSpinner />}</td>
+              <td>{item.user.username}</td>
+              <td>{date.toLocaleTimeString()} {date.toLocaleDateString()}</td>
+              <td>{completed}</td>
+              <td>
+                <button className="btn btn-danger btn-sm">{' '}Delete</button>
+              </td>
+            </tr>
+          )
+        })}
       </tbody>
     </table>
   );
@@ -52,7 +68,7 @@ const GroupPage = ({ groupId, netwatcherService }) => {
       });
   }, [])
 
-  const content = isLoaded ? <GroupView groups={jobs} /> : <Spinner />
+  const content = isLoaded ? <GroupView jobs={jobs} /> : <Spinner />
 
   return (
     <>
