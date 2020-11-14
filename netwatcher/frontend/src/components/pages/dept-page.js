@@ -48,12 +48,8 @@ const DeptPage = ({ deptId, depts, netwatcherService }) => {
   const [dept, setDept] = useState({})
 
   useEffect(() => {
-    const deptUrl = `/api/departaments/${deptId}/`;
-    netwatcherService.getResources(deptUrl)
-      .then((res) => res.json())
-      .then((data) => {
-        setDept(data);
-      });
+    const [findDept] = depts.filter((item) => item.id == deptId)
+    setDept(findDept)
     const groupsUrl = `/api/groups/?departament_id=${deptId}`;
     netwatcherService.getResources(groupsUrl)
       .then((res) => res.json())
