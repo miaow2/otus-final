@@ -30,7 +30,7 @@ const GroupView = ({ groups }) => {
   );
 };
 
-const GroupPage = ({ groupId, depts, netwatcherService }) => {
+const GroupPage = ({ groupId, netwatcherService }) => {
 
   const [jobs, setjobs] = useState([])
   const [isLoaded, setIsLoaded] = useState(false);
@@ -64,9 +64,9 @@ const GroupPage = ({ groupId, depts, netwatcherService }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  depts: state.deptsList.depts
-});
+// const mapStateToProps = (state) => ({
+//   depts: state.deptsList.depts
+// });
 
 // const mapDispatchToProps = (dispatch, ownProps) => {
 
@@ -76,4 +76,4 @@ const mapStateToProps = (state) => ({
 //   };
 // };
 
-export default withNetWatcherService()(connect(mapStateToProps)(GroupPage));
+export default withNetWatcherService()(GroupPage);
