@@ -1,13 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
 import { loginUser } from '../../actions/auth';
 
-const Login = ({ isAuthenticated, loginUser }) => {
+const Login = ({ isAuthenticated, errors, loginUser }) => {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loginError, setloginError] = useState(null);
+
+  useEffect(() => {
+    if (errors.type === "login") {
+      setloginError(
+        <div className="alert alert-dismissible alert-danger">
+          {errors.msg.non_field_errors.join()}
+        </div>
+      )
+    };
+  }, [errors]);
 
   const onSubmit = (e) => {
 
@@ -25,7 +36,8 @@ const Login = ({ isAuthenticated, loginUser }) => {
 
   return (
     <div className="col-md-6 m-auto">
-      <div className="card card-body mt-5">
+      {loginError}
+      <div className="card card-body mt-2">
         <h2 className="text-center">Login</h2>
         <form onSubmit={onSubmit}>
           <div className="form-group">
@@ -60,7 +72,8 @@ const Login = ({ isAuthenticated, loginUser }) => {
 };
 
 const mapStateToProps = (state) => ({
-  isAuthenticated: state.auth.isAuthenticated
+  isAuthenticated: state.auth.isAuthenticated,
+  errors: state.errors,
 });
 
 export default connect(mapStateToProps, { loginUser })(Login);

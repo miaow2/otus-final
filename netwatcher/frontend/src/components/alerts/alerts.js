@@ -9,7 +9,9 @@ const Alerts = ({ alert, errors, messages }) => {
       alert.error(`Username: ${errors.msg.username.join()}`)
     };
     if (errors.msg.non_field_errors) {
-      alert.error(errors.msg.non_field_errors.join())
+      if (errors.type !== "login") {
+        alert.error(errors.msg.non_field_errors.join())
+      }
     };
     if (errors.msg.detail) {
       alert.error(errors.msg.detail)

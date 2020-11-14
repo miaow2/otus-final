@@ -18,7 +18,7 @@ import { NetWatcherServiceProvider } from '../netwatcher-service-context';
 import store from '../../store';
 
 const alertOptions = {
-  timeout: 5000,
+  timeout: 3000,
   position: "top center"
 };
 
