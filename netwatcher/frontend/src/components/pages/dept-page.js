@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import Spinner from '../spinner';
+import { Spinner } from '../spinners';
 import withNetWatcherService from '../hoc';
 
 const DeptView = ({ groups }) => {
