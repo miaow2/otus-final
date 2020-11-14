@@ -30,13 +30,19 @@ const GroupView = ({ groups }) => {
   );
 };
 
-const GroupPage = ({ groupId, depts, netwatcherService, location }) => {
+const GroupPage = ({ groupId, depts, netwatcherService }) => {
 
   const [jobs, setjobs] = useState([])
   const [isLoaded, setIsLoaded] = useState(false);
-  const { groupName } = location.state
+  const [group, setGroup] = useState({})
 
   useEffect(() => {
+    const deptUrl = `/api/groups/${groupId}/`;
+    netwatcherService.getResources(deptUrl)
+      .then((res) => res.json())
+      .then((data) => {
+        setGroup(data);
+      });
     const url = `/api/jobs/?group_id=${groupId}`;
     netwatcherService.getResources(url)
       .then((res) => res.json())
@@ -51,7 +57,7 @@ const GroupPage = ({ groupId, depts, netwatcherService, location }) => {
   return (
     <>
       <h1>
-        {groupName}
+        {group.name}
       </h1>
       {content}
     </>

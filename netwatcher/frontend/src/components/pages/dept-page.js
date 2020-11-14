@@ -41,15 +41,21 @@ const DeptView = ({ groups }) => {
   );
 };
 
-const DeptPage = ({ deptId, depts, netwatcherService, location }) => {
+const DeptPage = ({ deptId, depts, netwatcherService }) => {
 
   const [groups, setGroups] = useState([])
   const [isLoaded, setIsLoaded] = useState(false);
-  const { deptName } = location.state
+  const [dept, setDept] = useState({})
 
   useEffect(() => {
-    const url = `/api/groups/?departament_id=${deptId}`;
-    netwatcherService.getResources(url)
+    const deptUrl = `/api/departaments/${deptId}/`;
+    netwatcherService.getResources(deptUrl)
+      .then((res) => res.json())
+      .then((data) => {
+        setDept(data);
+      });
+    const groupsUrl = `/api/groups/?departament_id=${deptId}`;
+    netwatcherService.getResources(groupsUrl)
       .then((res) => res.json())
       .then((data) => {
         setGroups(data.results);
@@ -62,7 +68,7 @@ const DeptPage = ({ deptId, depts, netwatcherService, location }) => {
   return (
     <>
       <h1>
-        {deptName}
+        {dept.name}
       </h1>
       {content}
     </>

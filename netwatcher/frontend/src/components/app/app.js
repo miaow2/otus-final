@@ -40,13 +40,13 @@ const App = () => {
             <div className="container">
               <Switch>
                 <Route path="/" component={Home} exact />
-                <Route path="/depts/:id" render={({ match, location }) => {
+                <Route path="/depts/:id" render={({ match }) => {
                   const { id } = match.params
-                  return <DeptPage deptId={id} location={location} />
+                  return <DeptPage deptId={id} />
                 }} />
-                <Route path="/groups/:id" render={({ match, location }) => {
+                <Route path="/groups/:id" render={({ match }) => {
                   const { id } = match.params
-                  return <GroupPage groupId={id} location={location} />
+                  return <GroupPage groupId={id} />
                 }} />
                 <Route path="/login" component={Login} />
                 {/* <PrivateRoute path="/profile" component={Profile} /> */}

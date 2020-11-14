@@ -20,7 +20,7 @@ export const loadUser = () => (dispatch, getState) => {
   });
 
   axios
-    .get('/api/auth/user', getConfig(getState))
+    .get('/api/auth/user/', getConfig(getState))
     .then((res) => {
       dispatch({
         type: USER_LOADED,
