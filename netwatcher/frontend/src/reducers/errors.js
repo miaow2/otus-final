@@ -5,7 +5,8 @@ const updateErrors = (state, action) => {
   if (state === undefined) {
     return {
       msg: {},
-      status: null
+      status: null,
+      type: null
     };
   };
 
@@ -13,7 +14,8 @@ const updateErrors = (state, action) => {
     case GET_ERRORS:
       return {
         msg: action.payload.msg,
-        status: action.payload.status
+        status: action.payload.status,
+        type: action.payload.type
       }
     default:
       return state.errors
