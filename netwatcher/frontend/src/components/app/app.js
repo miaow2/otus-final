@@ -9,7 +9,9 @@ import Header from '../header';
 import Home from '../home';
 import Login from '../accounts';
 import NetWatcherService from '../../services/netwatcher-api';
+import Profile from '../profile';
 import { DeptPage } from '../pages';
+import { GroupPage } from '../pages';
 import { loadUser } from '../../actions/auth';
 import { NetWatcherServiceProvider } from '../netwatcher-service-context';
 
@@ -38,16 +40,17 @@ const App = () => {
             <div className="container">
               <Switch>
                 <Route path="/" component={Home} exact />
-                <Route path="/depts/:id" render={({ match }) => {
+                <Route path="/depts/:id" render={({ match, location }) => {
                   const { id } = match.params
-                  return <DeptPage deptId={id} />
+                  return <DeptPage deptId={id} location={location} />
                 }} />
-                {/* <Route path="/groups/:id" render={({ match }) => {
+                <Route path="/groups/:id" render={({ match, location }) => {
                   const { id } = match.params
-                  return <CoursePage courseId={id} />
-                }} /> */}
+                  return <GroupPage groupId={id} location={location} />
+                }} />
                 <Route path="/login" component={Login} />
                 {/* <PrivateRoute path="/profile" component={Profile} /> */}
+                <Route path="/profile" component={Profile} />
               </Switch>
             </div>
           </Router>

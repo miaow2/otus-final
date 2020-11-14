@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Spinner from '../spinner';
 import withNetWatcherService from '../hoc';
 
-const DeptView = ({ groups }) => {
+const GroupView = ({ groups }) => {
 
   return (
     <table className="table table-striped">
@@ -30,29 +30,28 @@ const DeptView = ({ groups }) => {
   );
 };
 
-const DeptPage = ({ deptId, depts, netwatcherService }) => {
+const GroupPage = ({ groupId, depts, netwatcherService, location }) => {
 
-  const [groups, setGroups] = useState([])
+  const [jobs, setjobs] = useState([])
   const [isLoaded, setIsLoaded] = useState(false);
+  const { groupName } = location.state
 
   useEffect(() => {
-    const url = `/api/groups/?departament_id=${deptId}`;
+    const url = `/api/jobs/?group_id=${groupId}`;
     netwatcherService.getResources(url)
       .then((res) => res.json())
       .then((data) => {
-        setGroups(data.results);
+        setjobs(data.results);
         setIsLoaded(true);
       });
   }, [])
 
-  const [dept] = depts.filter((item) => item.id == deptId)
-
-  const content = isLoaded ? <DeptView groups={groups} /> : <Spinner />
+  const content = isLoaded ? <GroupView groups={jobs} /> : <Spinner />
 
   return (
     <>
       <h1>
-        {dept.name}
+        {groupName}
       </h1>
       {content}
     </>
@@ -71,4 +70,4 @@ const mapStateToProps = (state) => ({
 //   };
 // };
 
-export default withNetWatcherService()(connect(mapStateToProps)(DeptPage));
+export default withNetWatcherService()(connect(mapStateToProps)(GroupPage));

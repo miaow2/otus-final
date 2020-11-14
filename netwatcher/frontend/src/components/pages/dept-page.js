@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import Spinner from '../spinner';
 import withNetWatcherService from '../hoc';
@@ -19,7 +20,17 @@ const DeptView = ({ groups }) => {
         {groups.map((item) => (
           <tr key={item.id}>
             <td>{item.id}</td>
-            <td>{item.name}</td>
+            {/* <td><Link to={`/groups/${item.id}`}>{item.name}</Link></td> */}
+            <td>
+              <Link to={{
+                pathname: `/groups/${item.id}`,
+                state: {
+                  groupName: item.name
+                }
+              }}>
+                {item.name}
+              </Link>
+            </td>
             <td>
               <button className="btn btn-danger btn-sm">{' '}Delete</button>
             </td>
@@ -30,10 +41,11 @@ const DeptView = ({ groups }) => {
   );
 };
 
-const DeptPage = ({ deptId, depts, netwatcherService }) => {
+const DeptPage = ({ deptId, depts, netwatcherService, location }) => {
 
   const [groups, setGroups] = useState([])
   const [isLoaded, setIsLoaded] = useState(false);
+  const { deptName } = location.state
 
   useEffect(() => {
     const url = `/api/groups/?departament_id=${deptId}`;
@@ -45,14 +57,12 @@ const DeptPage = ({ deptId, depts, netwatcherService }) => {
       });
   }, [])
 
-  const [dept] = depts.filter((item) => item.id == deptId)
-
   const content = isLoaded ? <DeptView groups={groups} /> : <Spinner />
 
   return (
     <>
       <h1>
-        {dept.name}
+        {deptName}
       </h1>
       {content}
     </>
