@@ -28,6 +28,9 @@ const Alerts = ({ alert, errors, messages }) => {
     if (messages.changeTokenSuccess) {
       alert.success(messages.changeTokenSuccess)
     };
+    if (messages.copyToken) {
+      alert.success(messages.copyToken)
+    };
   }, [messages]);
 
   return <Fragment />;

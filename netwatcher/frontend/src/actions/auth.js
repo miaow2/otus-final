@@ -107,3 +107,9 @@ export const changeToken = () => (dispatch, getState) => {
       });
     });
 };
+
+export const copyToken = () => (dispatch) => {
+  dispatch(createMessage({
+    copyToken: "Token Copied"
+  }));
+};

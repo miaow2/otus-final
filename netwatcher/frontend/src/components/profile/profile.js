@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { changeToken } from '../../actions/auth';
+import { changeToken, copyToken } from '../../actions/auth';
 
-const Profile = ({ auth, changeToken }) => {
+const Profile = ({ auth, changeToken, copyToken }) => {
 
   const copyToClipboard = (e) => {
     const token = document.getElementById("token");
@@ -13,6 +13,7 @@ const Profile = ({ auth, changeToken }) => {
     textArea.select();
     document.execCommand("Copy");
     textArea.remove();
+    copyToken();
   };
 
   return (
@@ -55,4 +56,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps, { changeToken })(Profile);
+export default connect(mapStateToProps, { changeToken, copyToken })(Profile);
