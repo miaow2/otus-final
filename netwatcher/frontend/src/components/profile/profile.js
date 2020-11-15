@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-// import { changeToken } from '../../actions/auth';
+import { changeToken } from '../../actions/auth';
 
-const Profile = ({ auth }) => {
+const Profile = ({ auth, changeToken }) => {
 
   const copyToClipboard = (e) => {
     const token = document.getElementById("token");
@@ -37,10 +37,12 @@ const Profile = ({ auth }) => {
           <div className="card-text">
             <strong>Token:</strong> <samp className="mr-3"><span id="token">{auth.token}</span></samp>
             <div style={{ float: 'right' }}>
-              <button className="btn btn-success btn-sm" onClick={copyToClipboard}>Copy</button>
-              <button className="btn btn-success btn-sm ml-2"
-              // onClick={changeToken}>Change</button>
-              >Change</button>
+              <button
+                className="btn btn-success btn-sm"
+                onClick={copyToClipboard}>Copy</button>
+              <button
+                className="btn btn-success btn-sm ml-2"
+                onClick={changeToken}>Change</button>
             </div>
           </div>
         </div>
@@ -53,4 +55,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps)(Profile);
+export default connect(mapStateToProps, { changeToken })(Profile);

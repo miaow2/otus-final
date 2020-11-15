@@ -82,27 +82,28 @@ export const logoutUser = () => (dispatch) => {
   });
 };
 
-// export const changeToken = () => (dispatch, getState) => {
+export const changeToken = () => (dispatch, getState) => {
 
-//   axios
-//     .post('/api/auth/change-token', {}, getConfig(getState))
-//     .then((res) => {
-//       dispatch(createMessage({
-//         changeTokenSuccess: "Token changed successfully"
-//       }));
-//       dispatch({
-//         type: CHANGE_TOKEN_SUCCESS,
-//         payload: res.data,
-//       });
-//     })
-//     .catch((err) => {
-//       const errors = {
-//         msg: err.response.data,
-//         status: err.response.status
-//       };
-//       dispatch({
-//         type: GET_ERRORS,
-//         payload: errors
-//       });
-//     });
-// };
+  axios
+    .post('/api/auth/change-token/', {}, getConfig(getState))
+    .then((res) => {
+      dispatch(createMessage({
+        changeTokenSuccess: "Token changed successfully"
+      }));
+      dispatch({
+        type: CHANGE_TOKEN_SUCCESS,
+        payload: res.data,
+      });
+    })
+    .catch((err) => {
+      const errors = {
+        msg: err.response.data,
+        status: err.response.status,
+        type: "change-token"
+      };
+      dispatch({
+        type: GET_ERRORS,
+        payload: errors
+      });
+    });
+};
