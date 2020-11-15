@@ -1,0 +1,10 @@
+.table td, .table th {
+    vertical-align: middle;
+}
+
+.list-group-item:hover {
+    z-index: 1;
+    color: #444;
+    text-decoration: none;
+    background-color: #f8f9fa;
+}

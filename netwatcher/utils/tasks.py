@@ -52,9 +52,18 @@ def get_devices(group: str, command: str) -> dict:
     response = {
         "command": command,
         "group": group,
-        "data": dict(),
     }
+
+    data = list()
     for host, result in results.items():
-        response["data"][host] = result[-1].result
+        data.append(
+            {
+                "hostname": host,
+                "raw_output": result[-1].result,
+                "failed": True if result[-1].failed else False,
+            }
+        )
+
+    response["data"] = tuple(data)
 
     return response

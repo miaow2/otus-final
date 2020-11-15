@@ -53,7 +53,12 @@ const DeptView = ({ groups }) => {
         {groups.map((item) => (
           <tr key={item.id}>
             <td>{item.id}</td>
-            <td><Link to={`/groups/${item.id}`}>{item.name}</Link></td>
+            <td><Link to={{
+              pathname: `/groups/${item.id}`,
+              state: {
+                group: item
+              }
+            }}>{item.name}</Link></td>
             <td>
               <button className="btn btn-danger btn-sm">{' '}Delete</button>
             </td>

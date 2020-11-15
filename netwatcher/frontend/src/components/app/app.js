@@ -11,12 +11,13 @@ import Login from '../accounts';
 import NetWatcherService from '../../services/netwatcher-api';
 import PrivateRoute from '../private-route';
 import Profile from '../profile';
-import { DeptPage } from '../pages';
-import { GroupPage } from '../pages';
+import { DeptPage, GroupPage, JobPage } from '../pages';
 import { loadUser } from '../../actions/auth';
 import { NetWatcherServiceProvider } from '../netwatcher-service-context';
 
 import store from '../../store';
+
+import './app.css'
 
 const alertOptions = {
   timeout: 3000,
@@ -45,9 +46,13 @@ const App = () => {
                   const { id } = match.params
                   return <DeptPage deptId={id} />
                 }} />
-                <Route path="/groups/:id" render={({ match }) => {
+                <Route path="/groups/:id" render={({ match, location }) => {
                   const { id } = match.params
-                  return <GroupPage groupId={id} />
+                  return <GroupPage groupId={id} location={location} />
+                }} />
+                <Route path="/jobs/:id" render={({ match, location }) => {
+                  const { id } = match.params
+                  return <JobPage jobId={id} location={location} />
                 }} />
                 <Route path="/login" component={Login} />
                 <PrivateRoute path="/profile" component={Profile} />

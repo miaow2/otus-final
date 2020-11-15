@@ -2,13 +2,9 @@ import React from 'react';
 
 const PendingSpinner = () => {
   return (
-    // <div className="spinner-grow-sm text-success" role="status">
-    //   <span className="sr-only">Pending...</span>
-    //   Pending...
-    // </div>
     <>
       <span className="spinner-grow spinner-grow-sm text-success" role="status" aria-hidden="true"></span>
-      Pending
+      <span className="badge badge-light" style={{ fontSize: '.7125rem' }}>Pending</span>
     </>
   );
 };
