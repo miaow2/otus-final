@@ -9,6 +9,7 @@ import Header from '../header';
 import Home from '../home';
 import Login from '../accounts';
 import NetWatcherService from '../../services/netwatcher-api';
+import PrivateRoute from '../private-route';
 import Profile from '../profile';
 import { DeptPage } from '../pages';
 import { GroupPage } from '../pages';
@@ -49,8 +50,7 @@ const App = () => {
                   return <GroupPage groupId={id} />
                 }} />
                 <Route path="/login" component={Login} />
-                {/* <PrivateRoute path="/profile" component={Profile} /> */}
-                <Route path="/profile" component={Profile} />
+                <PrivateRoute path="/profile" component={Profile} />
               </Switch>
             </div>
           </Router>
