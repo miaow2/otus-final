@@ -10,7 +10,7 @@ const Modal = ({ node, handleClose, show, children }) => {
 
   return (
     <div className={showHideClassName}>
-      <div className="modal-dialog" role="document">
+      <div className="modal-dialog modal-dialog-centered" role="document">
         <div ref={node} className="modal-content">
           <div className="modal-header">
             <h5 className="modal-title">Modal title</h5>
