@@ -6,9 +6,9 @@ from .serializers import LoginSerializer, UserSerializer
 
 
 class ChangeTokenAPI(generics.GenericAPIView):
-    # permission_classes = [
-    #   permissions.IsAuthenticated,
-    # ]
+    permission_classes = [
+        permissions.IsAuthenticated,
+    ]
     serializer_class = UserSerializer
 
     def post(self, request, *args, **kwargs):
