@@ -56,11 +56,4 @@ const mapStateToProps = (state) => ({
   deptsList: state.deptsList
 });
 
-const mapDispatchToProps = (dispatch) => {
-
-  return {
-    fetchDepts: fetchDepts(dispatch)
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(HomeContainer);
+export default connect(mapStateToProps, { fetchDepts })(HomeContainer);

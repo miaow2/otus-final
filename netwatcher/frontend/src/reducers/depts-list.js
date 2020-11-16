@@ -4,7 +4,7 @@ import {
   FETCH_DEPTS_REQUEST
 } from '../actions/types';
 
-const updateBooksList = (state, action) => {
+const updateDeptsList = (state, action) => {
 
   if (state === undefined) {
     return {
@@ -40,4 +40,4 @@ const updateBooksList = (state, action) => {
   };
 };
 
-export default updateBooksList;
+export default updateDeptsList;

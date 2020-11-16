@@ -65,5 +65,4 @@ def get_devices(group: str, command: str) -> dict:
         )
 
     response["data"] = tuple(data)
-
     return response

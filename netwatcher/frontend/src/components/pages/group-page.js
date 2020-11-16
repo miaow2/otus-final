@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+import { fetchJobs, fetchGroup, flushJobs, setPendingJobs, updatePendingJobs } from '../../actions/jobs';
 import { PendingSpinner, Spinner } from '../spinners';
-import withNetWatcherService from '../hoc';
 
 const GroupView = ({ jobs }) => {
 
@@ -64,54 +64,56 @@ const GroupView = ({ jobs }) => {
   );
 };
 
-const GroupPage = ({ groupId, netwatcherService, location }) => {
+class GroupPage extends Component {
 
-  const [jobs, setjobs] = useState([])
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [group, setGroup] = useState({})
+  componentDidMount() {
+    this.props.fetchGroup(this.props.groupId, this.props.location);
+    this.props.fetchJobs(this.props.groupId);
+    this.updateJobs()
+    this.interval = setInterval(this.updateJobs, 5000)
+  };
 
-  useEffect(() => {
-    if (location.state === undefined) {
-      const deptUrl = `/api/groups/${groupId}/`;
-      netwatcherService.getResources(deptUrl)
-        .then((res) => res.json())
-        .then((data) => {
-          setGroup(data);
-        });
+  componentWillUnmount() {
+    this.props.flushJobs();
+    clearInterval(this.interval);
+  };
+
+  updateJobs = () => {
+
+    const filteredPendingJobs = this.props.jobsList.jobs.filter((item) => !item.task)
+    this.props.setPendingJobs(filteredPendingJobs)
+
+    if (filteredPendingJobs.length !== 0) {
+      this.props.updatePendingJobs()
     } else {
-      setGroup(location.state.group);
-    }
-    const url = `/api/jobs/?group_id=${groupId}`;
-    netwatcherService.getResources(url)
-      .then((res) => res.json())
-      .then((data) => {
-        setjobs(data.results);
-        setIsLoaded(true);
-      });
-  }, [])
+      clearInterval(this.interval)
+    };
+  };
 
-  const content = isLoaded ? <GroupView jobs={jobs} /> : <Spinner />
+  render() {
 
-  return (
-    <>
-      <h1>
-        {group.name}
-      </h1>
-      {content}
-    </>
-  );
-};
+    const { group, jobs, isLoading } = this.props.jobsList;
 
-// const mapStateToProps = (state) => ({
-//   depts: state.deptsList.depts
-// });
+    if (isLoading) {
+      return <Spinner />
+    };
 
-// const mapDispatchToProps = (dispatch, ownProps) => {
+    return (
+      <>
+        <h1>
+          {group.name}
+        </h1>
+        <GroupView jobs={jobs} />
+      </>
+    )
+  }
+}
 
-//   const { netwatcherService } = ownProps;
-//   return {
-//     fetchDepts: fetchDepts(netwatcherService, dispatch)
-//   };
-// };
+const mapStateToProps = (state) => ({
+  jobsList: state.jobsList
+});
 
-export default withNetWatcherService()(GroupPage);
+export default connect(
+  mapStateToProps,
+  { fetchJobs, fetchGroup, flushJobs, setPendingJobs, updatePendingJobs }
+)(GroupPage);

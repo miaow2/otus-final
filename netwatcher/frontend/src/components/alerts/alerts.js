@@ -31,6 +31,9 @@ const Alerts = ({ alert, errors, messages }) => {
     if (messages.copyToken) {
       alert.success(messages.copyToken)
     };
+    if (messages.jobUpdated) {
+      alert.success(messages.jobUpdated)
+    };
   }, [messages]);
 
   return <Fragment />;
