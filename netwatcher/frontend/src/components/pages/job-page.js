@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Moment from 'react-moment';
 import { Link } from 'react-router-dom';
 
 import withNetWatcherService from '../hoc';
@@ -6,37 +7,18 @@ import { FailHighlighter, SuccessHighlighter } from './syntax-highlights';
 import { PendingSpinner } from '../spinners';
 import { Spinner } from '../spinners';
 
-
-const msToTime = (s) => {
-
-  const pad = (n, z = 2) => {
-    return (`00${n}`).slice(-z);
-  }
-
-  var ms = s % 1000;
-  s = (s - ms) / 1000;
-  var secs = s % 60;
-  s = (s - secs) / 60;
-  var mins = s % 60;
-  var hrs = (s - mins) / 60;
-
-  return `${pad(hrs)}:${pad(mins)}:${pad(secs)}.${pad(ms, 3)}`;
-};
-
 const JobView = ({ job }) => {
 
-  const date = new Date(Date.parse(job.created));
   let completed = "—";
   let taken_time = "—";
   let status = <PendingSpinner />;
   let result = <FailHighlighter result="None" />;
 
   if (job.task) {
-    const date_done = new Date(Date.parse(job.task.date_done))
 
-    completed = `${date_done.toLocaleTimeString()} ${date_done.toLocaleDateString()}`
+    completed = <Moment format="hh:mm DD-MM-YYYY">{job.task.date_done}</Moment>
     status = job.task.status[0] + job.task.status.slice(1).toLowerCase()
-    taken_time = msToTime(date_done - date)
+    taken_time = <span><Moment duration={job.created} date={job.task.date_done} /> mins</span>
 
     if (job.task.status === "SUCCESS") {
       status = <span className="badge badge-success" style={{ fontSize: '.7125rem' }}>Completed</span>
@@ -63,7 +45,7 @@ const JobView = ({ job }) => {
           <li className="list-group-item"><strong>Group:</strong> <Link to={`/groups/${job.group.id}`} >{job.group.name}</Link></li>
           <li className="list-group-item"><strong>Command:</strong> {job.command}</li>
           <li className="list-group-item"><strong>Status:</strong> {status}</li>
-          <li className="list-group-item"><strong>Created:</strong> {date.toLocaleTimeString()} {date.toLocaleDateString()}</li>
+          <li className="list-group-item"><strong>Created:</strong> <Moment format="hh:mm DD-MM-YYYY">{job.created}</Moment></li>
           <li className="list-group-item"><strong>Completed:</strong> {completed}</li>
           <li className="list-group-item"><strong>Taken Time:</strong> {taken_time}</li>
           <li className="list-group-item"><strong>User:</strong> {job.user.username}</li>

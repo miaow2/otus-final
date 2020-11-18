@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Moment from 'react-moment';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
@@ -22,13 +23,11 @@ const GroupView = ({ jobs }) => {
       </thead>
       <tbody>
         {jobs.map((item) => {
-          const date = new Date(Date.parse(item.created))
           let completed = "—"
           let status = <PendingSpinner />
 
           if (item.task) {
-            const date_done = new Date(Date.parse(item.task.date_done))
-            completed = `${date_done.toLocaleTimeString()} ${date_done.toLocaleDateString()}`
+            completed = <Moment format="hh:mm DD-MM-YYYY">{item.task.date_done}</Moment>
             status = item.task.status[0] + item.task.status.slice(1).toLowerCase()
             if (item.task.status === "SUCCESS") {
               status = <span className="badge badge-success" style={{ fontSize: '.7125rem' }}>Completed</span>
@@ -51,7 +50,7 @@ const GroupView = ({ jobs }) => {
               <td>{item.command}</td>
               <td>{status}</td>
               <td>{item.user.username}</td>
-              <td>{date.toLocaleTimeString()} {date.toLocaleDateString()}</td>
+              <td><Moment format="hh:mm DD-MM-YYYY">{item.created}</Moment></td>
               <td>{completed}</td>
               <td>
                 <button className="btn btn-danger btn-sm">{' '}Delete</button>
