@@ -4,15 +4,13 @@ import {
   FETCH_DEPTS_REQUEST
 } from '../actions/types';
 
-const updateDeptsList = (state, action) => {
+const initialState = {
+  depts: [],
+  loading: true,
+  error: null
+};
 
-  if (state === undefined) {
-    return {
-      depts: [],
-      loading: true,
-      error: null
-    };
-  };
+const updateDeptsList = (state = initialState, action) => {
 
   switch (action.type) {
     case FETCH_DEPTS_REQUEST:
@@ -36,7 +34,7 @@ const updateDeptsList = (state, action) => {
         error: action.payload
       };
     default:
-      return state.deptsList;
+      return state;
   };
 };
 

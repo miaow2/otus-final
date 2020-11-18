@@ -9,51 +9,49 @@ import {
   UPDATE_PENDING_JOBS
 } from '../actions/types';
 
-const updateJobs = (state, action) => {
+const initialState = {
+  jobs: [],
+  isLoading: false,
+  group: {},
+  pendingJobs: []
+};
 
-  if (state === undefined) {
-    return {
-      jobs: [],
-      isLoading: false,
-      group: {},
-      pendingJobs: []
-    };
-  };
+const updateJobs = (state = initialState, action) => {
 
   switch (action.type) {
 
     case JOBS_LOADING:
       return {
-        ...state.jobsList,
+        ...state,
         isLoading: true
       }
 
     case FETCH_JOBS_SUCCESS:
       return {
-        ...state.jobsList,
+        ...state,
         jobs: action.payload,
         isLoading: false
       }
 
     case FETCH_GROUP_SUCCESS:
       return {
-        ...state.jobsList,
+        ...state,
         group: action.payload
       }
 
     case SET_PENDING_JOBS:
       return {
-        ...state.jobsList,
+        ...state,
         pendingJobs: action.payload
       }
 
     case UPDATE_PENDING_JOBS:
       return {
-        ...state.jobsList,
+        ...state,
         jobs: [
-          ...state.jobsList.jobs.slice(0, action.payload.id),
+          ...state.jobs.slice(0, action.payload.id),
           action.payload.data,
-          ...state.jobsList.jobs.slice(action.payload.id + 1)
+          ...state.jobs.slice(action.payload.id + 1)
         ]
       }
 
@@ -68,7 +66,7 @@ const updateJobs = (state, action) => {
       }
 
     default:
-      return state.jobsList;
+      return state;
   };
 };
 

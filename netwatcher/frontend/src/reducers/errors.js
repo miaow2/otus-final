@@ -1,14 +1,12 @@
 import { GET_ERRORS } from '../actions/types';
 
-const updateErrors = (state, action) => {
+const initialState = {
+  msg: {},
+  status: null,
+  type: null
+};
 
-  if (state === undefined) {
-    return {
-      msg: {},
-      status: null,
-      type: null
-    };
-  };
+const updateErrors = (state = initialState, action) => {
 
   switch (action.type) {
     case GET_ERRORS:
@@ -18,7 +16,7 @@ const updateErrors = (state, action) => {
         type: action.payload.type
       }
     default:
-      return state.errors
+      return state
   };
 };
 

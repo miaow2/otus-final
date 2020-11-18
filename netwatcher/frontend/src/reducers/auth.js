@@ -8,26 +8,24 @@ import {
   CHANGE_TOKEN_SUCCESS,
 } from '../actions/types';
 
-const updateUser = (state, action) => {
+const initialState = {
+  token: localStorage.getItem("token"),
+  user: null,
+  isAuthenticated: null,
+  isLoading: false
+};
 
-  if (state === undefined) {
-    return {
-      token: localStorage.getItem("token"),
-      user: null,
-      isAuthenticated: null,
-      isLoading: false
-    };
-  };
+const updateUser = (state = initialState, action) => {
 
   switch (action.type) {
     case USER_LOADING:
       return {
-        ...state.auth,
+        ...state,
         isLoading: true
       }
     case USER_LOADED:
       return {
-        ...state.auth,
+        ...state,
         user: action.payload,
         isAuthenticated: true,
         isLoading: false,
@@ -52,7 +50,7 @@ const updateUser = (state, action) => {
         isLoading: false
       }
     default:
-      return state.auth
+      return state
   };
 };
 
