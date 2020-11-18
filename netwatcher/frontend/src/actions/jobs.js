@@ -85,7 +85,6 @@ export const setPendingJobs = (jobs) => (dispatch) => {
 
 export const updatePendingJobs = () => (dispatch, getState) => {
 
-  const jobsList = getState().jobsList.jobs
   const pendingJobsList = getState().jobsList.pendingJobs
 
   for (const job of pendingJobsList) {
@@ -94,13 +93,9 @@ export const updatePendingJobs = () => (dispatch, getState) => {
       .get(url)
       .then((res) => {
         if (res.data.task) {
-          const idx = jobsList.findIndex(({ id }) => id === res.data.id)
           dispatch({
             type: UPDATE_PENDING_JOBS,
-            payload: {
-              id: idx,
-              data: res.data
-            }
+            payload: res.data
           });
           dispatch(
             createMessage({

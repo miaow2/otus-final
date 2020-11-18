@@ -48,11 +48,7 @@ const updateJobs = (state = initialState, action) => {
     case UPDATE_PENDING_JOBS:
       return {
         ...state,
-        jobs: [
-          ...state.jobs.slice(0, action.payload.id),
-          action.payload.data,
-          ...state.jobs.slice(action.payload.id + 1)
-        ]
+        jobs: state.jobs.map((job) => job.id === action.payload.id ? action.payload : job)
       }
 
     case FETCH_JOBS_FAIL:
