@@ -10,12 +10,22 @@ const Alerts = ({ alert, errors, messages }) => {
     };
     if (errors.msg.non_field_errors) {
       if (errors.type !== "login") {
-        alert.error(errors.msg.non_field_errors.join())
+        alert.error(errors.msg.non_field_errors.join(), { timeout: 0 })
       }
     };
     if (errors.msg.detail) {
-      alert.error(errors.msg.detail)
+      alert.error(errors.msg.detail, { timeout: 0 })
     };
+    if (errors.msg.departament_id) {
+      alert.error(errors.msg.departament_id, { timeout: 0 })
+    };
+    if (errors.msg.device_group_error) {
+      alert.error(errors.msg.device_group_error, { timeout: 0 })
+    };
+    if (errors.msg.device_group_not_found) {
+      alert.error(errors.msg.device_group_not_found, { timeout: 0 })
+    };
+    // eslint-disable-next-line
   }, [errors]);
 
   useEffect(() => {
@@ -34,6 +44,10 @@ const Alerts = ({ alert, errors, messages }) => {
     if (messages.jobUpdated) {
       alert.success(messages.jobUpdated)
     };
+    if (messages.taskCreated) {
+      alert.success(messages.taskCreated)
+    };
+    // eslint-disable-next-line
   }, [messages]);
 
   return <Fragment />;

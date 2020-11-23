@@ -80,6 +80,7 @@ const JobPage = ({ jobId, netwatcherService, location }) => {
       setjob(location.state.job);
       setIsLoaded(true);
     }
+    // eslint-disable-next-line
   }, []);
 
   const content = isLoaded ? <JobView job={job} /> : <Spinner />;

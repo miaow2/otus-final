@@ -65,5 +65,4 @@ def get_devices(group: str, command: str) -> dict:
         )
 
     response["data"] = tuple(data)
-    time.sleep(30)
     return response

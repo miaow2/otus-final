@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { Spinner } from '../spinners';
-import { fetchDepts } from '../../actions/home';
+import { fetchDepts } from '../../actions/home-action';
 
 const HomeView = ({ depts }) => {
 
@@ -15,7 +15,14 @@ const HomeView = ({ depts }) => {
             <h4 className="card-title">{item.name}</h4>
             <ul className="list-group" style={{ fontSize: '18px' }}>
               <li className="list-group-item d-flex justify-content-between align-items-center border-0">
-                <Link to={`/depts/${item.id}`}>Groups</Link>
+                {/* <Link to={`/depts/${item.id}`}>Groups</Link> */}
+                <Link to={{
+                  pathname: `/depts/${item.id}`,
+                  state: {
+                    dept: item
+                  }
+                }}>Groups
+                </Link>
                 <span className="badge badge-primary badge-pill">{item.groups_count}</span>
               </li>
             </ul>
@@ -37,6 +44,7 @@ const HomeContainer = ({ deptsList, fetchDepts }) => {
   useEffect(() => {
     const url = '/api/departaments/';
     fetchDepts(url);
+    // eslint-disable-next-line
   }, []);
 
   const { depts, loading } = deptsList

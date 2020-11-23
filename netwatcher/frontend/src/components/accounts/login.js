@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
-import { loginUser } from '../../actions/auth';
+import { loginUser } from '../../actions/auth-action';
 
 const Login = ({ isAuthenticated, errors, loginUser }) => {
 
@@ -18,6 +18,7 @@ const Login = ({ isAuthenticated, errors, loginUser }) => {
         </div>
       )
     };
+    // eslint-disable-next-line
   }, [errors]);
 
   const onSubmit = (e) => {

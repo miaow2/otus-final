@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { changeToken, copyToken } from '../../actions/auth';
+import { changeToken, copyToken } from '../../actions/auth-action';
 
 const Profile = ({ auth, changeToken, copyToken }) => {
 

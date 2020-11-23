@@ -1,3 +1,8 @@
+import hvac
+import requests
+
+from django.conf import settings
+from django.shortcuts import get_object_or_404
 from celery.result import AsyncResult
 from rest_framework import status
 from rest_framework.generics import GenericAPIView
@@ -26,6 +31,43 @@ class GroupViewSet(ModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
     filterset_class = GroupFilterSet
+
+    def create(self, request, *args, **kwargs):
+        vault = hvac.Client(url=settings.VAULT_ADDR, token=settings.VAULT_TOKEN)
+        dcbox_data = vault.secrets.kv.v2.read_secret_version(
+            mount_point="techserver",
+            path="dcbox",
+        )["data"]["data"]
+
+        session = requests.Session()
+        session.verify = False
+        session.headers.update(
+            {"Authorization": f"Token {dcbox_data['dcbox_8_token']}"}
+        )
+
+        url = f"{dcbox_data['dcbox_8_url']}/api/dcim/device-groups/?name={request.data['name']}"
+        response = session.get(url)
+
+        if not response.status_code == 200:
+            return Response(
+                {"device_group_error": "Failed to get group device from DCBox"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        elif response.json()["count"] == 0:
+            return Response(
+                {
+                    "device_group_not_found": f"Device group {request.data['name']} not found in DCBox"
+                },
+                status=status.HTTP_404_NOT_FOUND,
+            )
+        else:
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            headers = self.get_success_headers(serializer.data)
+            return Response(
+                serializer.data, status=status.HTTP_201_CREATED, headers=headers
+            )
 
 
 class JobViewSet(DestroyModelMixin, ListModelMixin, RetrieveModelMixin, GenericViewSet):

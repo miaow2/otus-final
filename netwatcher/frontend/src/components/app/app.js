@@ -12,7 +12,7 @@ import NetWatcherService from '../../services/netwatcher-api';
 import PrivateRoute from '../private-route';
 import Profile from '../profile';
 import { DeptPage, GroupPage, JobPage } from '../pages';
-import { loadUser } from '../../actions/auth';
+import { loadUser } from '../../actions/auth-action';
 import { NetWatcherServiceProvider } from '../netwatcher-service-context';
 
 import store from '../../store';
@@ -30,6 +30,7 @@ const App = () => {
 
   useEffect(() => {
     store.dispatch(loadUser())
+    // eslint-disable-next-line
   }, []);
 
   return (

@@ -1,145 +1,101 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+import { addGroup, deleteGroup, fetchGroups, fetchDept } from '../../actions/groups-actions';
 import { Spinner } from '../spinners';
-import withNetWatcherService from '../hoc';
 
-const Modal = ({ node, handleClose, show, children }) => {
-  const showHideClassName = show ? "modal d-block" : "modal d-none";
+const DeptPage = ({ deptId, auth, location, addGroup, deleteGroup, groupsList, fetchGroups, fetchDept }) => {
 
-  return (
-    <div className={showHideClassName}>
-      <div className="modal-dialog modal-dialog-centered" role="document">
-        <div ref={node} className="modal-content">
-          <div className="modal-header">
-            <h5 className="modal-title">Modal title</h5>
-            <button
-              className="close"
-              data-dismiss="modal"
-              aria-label="Close"
-              onClick={handleClose}>
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div className="modal-body">
-            {children}
-          </div>
-          <div className="modal-footer">
-            <button type="button" className="btn btn-primary btn-sm">Save changes</button>
-            <button
-              className="btn btn-secondary btn-sm"
-              data-dismiss="modal"
-              onClick={handleClose}>Close</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const DeptView = ({ groups }) => {
-
-  return (
-    <table className="table table-striped">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Name</th>
-          <th />
-        </tr>
-      </thead>
-      <tbody>
-        {groups.map((item) => (
-          <tr key={item.id}>
-            <td>{item.id}</td>
-            <td><Link to={{
-              pathname: `/groups/${item.id}`,
-              state: {
-                group: item
-              }
-            }}>{item.name}</Link></td>
-            <td>
-              <button className="btn btn-danger btn-sm">{' '}Delete</button>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  );
-};
-
-const DeptPage = ({ deptId, depts, netwatcherService }) => {
-
-  const node = useRef();
-
-  const [groups, setGroups] = useState([])
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [dept, setDept] = useState({})
-  const [modal, setModal] = useState(false);
+  const [groupName, setGroupName] = useState("");
 
   useEffect(() => {
-    const deptUrl = `/api/departaments/${deptId}/`;
-    netwatcherService.getResources(deptUrl)
-      .then((res) => res.json())
-      .then((data) => {
-        setDept(data);
-      });
-    const groupsUrl = `/api/groups/?departament_id=${deptId}`;
-    netwatcherService.getResources(groupsUrl)
-      .then((res) => res.json())
-      .then((data) => {
-        setGroups(data.results);
-        setIsLoaded(true);
-      });
-  }, [])
+    fetchDept(deptId, location)
+    fetchGroups(deptId);
+    // eslint-disable-next-line
+  }, []);
 
-  const handleModal = () => {
-    setModal(!modal);
-  };
-
-  const handleOutsideClick = (e) => {
-    if (!node.current.contains(e.target)) setModal(false)
-  };
-
-  useEffect(() => {
-    if (modal) {
-      document.addEventListener("click", handleOutsideClick);
-    } else {
-      document.removeEventListener("click", handleOutsideClick);
-    }
-    return () => {
-      document.removeEventListener("click", handleOutsideClick);
+  const onAddGroup = (e) => {
+    e.preventDefault();
+    if (groupName === "") {
+      return
     };
-  }, [modal]);
+    addGroup(groupName, deptId)
+    setGroupName("")
+  };
 
-  const content = isLoaded ? <DeptView groups={groups} /> : <Spinner />
+  const { dept, groups, isLoading } = groupsList;
+
+  if (isLoading) {
+    return <Spinner />
+  };
 
   return (
     <div>
       <h1>
         {dept.name}
       </h1>
-      <Modal node={node} show={modal} handleClose={handleModal}>
-        <p>Modal</p>
-        <p>Data</p>
-      </Modal>
-      <button className="btn btn-success btn-sm" onClick={handleModal}>Add group</button>
-      {content}
+      {
+        auth.isAuthenticated &&
+        <div className="d-flex justify-content-sm-end align-items-center mb-2">
+          <form id="groupAdd" className="mr-2" onSubmit={onAddGroup}>
+            <input
+              type="text"
+              className="form-control"
+              style={{ padding: '0.5rem 0' }}
+              placeholder="Enter group name"
+              onChange={(e) => setGroupName(e.target.value)}
+              value={groupName}
+            />
+          </form>
+          <button
+            className="btn btn-success btn-sm"
+            type="submit"
+            form="groupAdd"
+          >Add group</button>
+        </div>
+      }
+      <table className="table table-striped">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th />
+          </tr>
+        </thead>
+        <tbody>
+          {groups.map((item) => {
+
+            let buttonDelete = null;
+
+            if (auth.isAuthenticated) {
+              buttonDelete = <button className="btn btn-danger btn-sm" onClick={() => deleteGroup(item.id)}>{' '}Delete</button>
+            };
+
+            return (
+              <tr key={item.id}>
+                <td>{item.id}</td>
+                <td><Link to={{
+                  pathname: `/groups/${item.id}`,
+                  state: {
+                    group: item
+                  }
+                }}>{item.name}</Link></td>
+                <td>
+                  {buttonDelete}
+                </td>
+              </tr>
+            )
+          })}
+        </tbody>
+      </table>
     </div>
   );
 };
 
 const mapStateToProps = (state) => ({
-  depts: state.deptsList.depts
+  auth: state.auth,
+  groupsList: state.groupsList
 });
 
-// const mapDispatchToProps = (dispatch, ownProps) => {
-
-//   const { netwatcherService } = ownProps;
-//   return {
-//     fetchDepts: fetchDepts(netwatcherService, dispatch)
-//   };
-// };
-
-export default withNetWatcherService()(connect(mapStateToProps)(DeptPage));
+export default (connect(mapStateToProps, { addGroup, deleteGroup, fetchGroups, fetchDept })(DeptPage));
