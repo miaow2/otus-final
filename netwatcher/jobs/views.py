@@ -41,11 +41,9 @@ class GroupViewSet(ModelViewSet):
 
         session = requests.Session()
         session.verify = False
-        session.headers.update(
-            {"Authorization": f"Token {dcbox_data['dcbox_8_token']}"}
-        )
+        session.headers.update({"Authorization": f"Token {dcbox_data['dcbox_token']}"})
 
-        url = f"{dcbox_data['dcbox_8_url']}/api/dcim/device-groups/?name={request.data['name']}"
+        url = f"{dcbox_data['dcbox_url']}/api/dcim/device-groups/?name={request.data['name']}"
         response = session.get(url)
 
         if not response.status_code == 200:

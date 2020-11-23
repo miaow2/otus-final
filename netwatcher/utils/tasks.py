@@ -37,8 +37,8 @@ def get_devices(group: str, command: str) -> dict:
         inventory={
             "plugin": "DCBoxInventory",
             "options": {
-                "nb_url": dcbox_data["dcbox_8_url"],
-                "nb_token": dcbox_data["dcbox_8_token"],
+                "nb_url": dcbox_data["dcbox_url"],
+                "nb_token": dcbox_data["dcbox_token"],
                 "ssl_verify": False,
                 "filter_parameters": filter_params,
             },
