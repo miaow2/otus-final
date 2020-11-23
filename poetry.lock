@@ -279,7 +279,7 @@ python-ldap = ">=3.1"
 
 [[package]]
 name = "django-celery-results"
-version = "1.2.1"
+version = "2.0.0"
 description = "Celery result backends for Django."
 category = "main"
 optional = false
@@ -293,7 +293,7 @@ celery = ">=4.4,<6.0"
 type = "git"
 url = "https://github.com/celery/django-celery-results.git"
 reference = "master"
-resolved_reference = "347da9c061199a3461f677973428b456ae205cc8"
+resolved_reference = "e29586b4445268906b737426345d6a003fff162f"
 
 [[package]]
 name = "django-cors-headers"
@@ -343,6 +343,20 @@ description = "Clean single-source support for Python 3 and 2"
 category = "main"
 optional = false
 python-versions = ">=2.6, !=3.0.*, !=3.1.*, !=3.2.*"
+
+[[package]]
+name = "gunicorn"
+version = "20.0.4"
+description = "WSGI HTTP Server for UNIX"
+category = "main"
+optional = false
+python-versions = ">=3.4"
+
+[package.extras]
+eventlet = ["eventlet (>=0.9.7)"]
+gevent = ["gevent (>=0.13)"]
+setproctitle = ["setproctitle"]
+tornado = ["tornado (>=0.2)"]
 
 [[package]]
 name = "hvac"
@@ -846,7 +860,7 @@ python-versions = ">=3.6.1"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "6fa47426c676e67bb38341a6dbff9c209678f0ec81c5fa1a02c9e12a2e85b706"
+content-hash = "e48a3f9374d48091e7d1d5264d831d032a508f021d27b250b94128c514c0435b"
 
 [metadata.files]
 amqp = [
@@ -998,6 +1012,10 @@ fake-useragent = [
 ]
 future = [
     {file = "future-0.18.2.tar.gz", hash = "sha256:b1bead90b70cf6ec3f0710ae53a525360fa360d306a86583adc6bf83a4db537d"},
+]
+gunicorn = [
+    {file = "gunicorn-20.0.4-py2.py3-none-any.whl", hash = "sha256:cd4a810dd51bf497552cf3f863b575dabd73d6ad6a91075b65936b151cbf4f9c"},
+    {file = "gunicorn-20.0.4.tar.gz", hash = "sha256:1904bb2b8a43658807108d59c3f3d56c2b6121a701161de0ddf9ad140073c626"},
 ]
 hvac = [
     {file = "hvac-0.10.5-py2.py3-none-any.whl", hash = "sha256:9eb929ba0f00f5886f49f31513eb274fd8adf54607864afd6e71b59243a34e0d"},

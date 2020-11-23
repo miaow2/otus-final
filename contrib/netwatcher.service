@@ -1,0 +1,21 @@
+[Unit]
+Description=NetWatcher WSGI Service
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+
+User=root
+Group=root
+PIDFile=/var/tmp/netwatcher.pid
+WorkingDirectory=/opt/netwatcher
+
+ExecStart=/opt/netwatcher/.venv/bin/gunicorn --pid /var/tmp/netwatcher.pid --pythonpath /opt/netwatcher/netwatcher --config /opt/netwatcher/contrib/gunicorn.py netwatcher.wsgi
+
+Restart=on-failure
+RestartSec=30
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

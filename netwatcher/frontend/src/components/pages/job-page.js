@@ -1,8 +1,8 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import Moment from 'react-moment';
 import { Link } from 'react-router-dom';
 
-import withNetWatcherService from '../hoc';
 import { FailHighlighter, SuccessHighlighter } from './syntax-highlights';
 import { PendingSpinner } from '../spinners';
 import { Spinner } from '../spinners';
@@ -22,7 +22,6 @@ const JobView = ({ job }) => {
 
     if (job.task.status === "SUCCESS") {
       status = <span className="badge badge-success" style={{ fontSize: '.7125rem' }}>Completed</span>
-      // result = JSON.stringify(JSON.parse(job.task.result), undefined, 2);
       const responses = JSON.parse(job.task.result);
       result = responses.data.map((res) => (
         <div key={res.hostname}>
@@ -62,7 +61,7 @@ const JobView = ({ job }) => {
   );
 };
 
-const JobPage = ({ jobId, netwatcherService, location }) => {
+const JobPage = ({ jobId, location }) => {
 
   const [job, setjob] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -70,10 +69,9 @@ const JobPage = ({ jobId, netwatcherService, location }) => {
   useEffect(() => {
     if (location.state === undefined) {
       const jobUrl = `/api/jobs/${jobId}/`;
-      netwatcherService.getResources(jobUrl)
-        .then((res) => res.json())
-        .then((data) => {
-          setjob(data);
+      axios.get(jobUrl)
+        .then((res) => {
+          setjob(res.data);
           setIsLoaded(true);
         });
     } else {
@@ -92,4 +90,4 @@ const JobPage = ({ jobId, netwatcherService, location }) => {
   );
 };
 
-export default withNetWatcherService()(JobPage);
+export default JobPage;

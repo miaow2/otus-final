@@ -77,7 +77,7 @@ class JobViewSet(DestroyModelMixin, ListModelMixin, RetrieveModelMixin, GenericV
 
 
 class CreateTaskAPI(CreateModelMixin, GenericAPIView):
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
 
@@ -105,7 +105,7 @@ class CreateTaskAPI(CreateModelMixin, GenericAPIView):
 
 
 class GetTaskAPI(RetrieveModelMixin, GenericAPIView):
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, task_id, *args, **kwargs):
 
