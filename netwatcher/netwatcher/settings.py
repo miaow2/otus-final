@@ -20,6 +20,7 @@ SECRET_KEY = getattr(configuration, "SECRET_KEY")
 DEBUG = getattr(configuration, "DEBUG")
 VAULT_ADDR = getattr(configuration, "VAULT_ADDR")
 VAULT_TOKEN = getattr(configuration, "VAULT_TOKEN")
+LOGGING = getattr(configuration, "LOGGING", {})
 
 # Application definition
 INSTALLED_APPS = [

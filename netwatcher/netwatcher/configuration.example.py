@@ -12,3 +12,26 @@ SECRET_KEY = ""
 DEBUG = False
 
 ALLOWED_HOSTS = []
+
+
+# Logging
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "file": {
+            "level": "INFO",
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": "/var/log/netwatcher.log",
+            "maxBytes": 512000,
+            "backupCount": 5,
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["file"],
+            "level": "INFO",
+            "propagate": True,
+        },
+    },
+}
