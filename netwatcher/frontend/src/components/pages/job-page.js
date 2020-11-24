@@ -16,19 +16,22 @@ const JobView = ({ job }) => {
 
   if (job.task) {
 
-    completed = <Moment format="HH:mm DD-MM-YYYY">{job.task.date_done}</Moment>
-    status = job.task.status[0] + job.task.status.slice(1).toLowerCase()
-    taken_time = <span><Moment duration={job.created} date={job.task.date_done} /> mins</span>
+    completed = <Moment format="HH:mm DD-MM-YYYY">{job.task.date_done}</Moment>;
+    status = job.task.status[0] + job.task.status.slice(1).toLowerCase();
+    taken_time = <span><Moment duration={job.created} date={job.task.date_done} /> mins</span>;
 
     if (job.task.status === "SUCCESS") {
-      status = <span className="badge badge-success" style={{ fontSize: '.7125rem' }}>Completed</span>
+      status = <span className="badge badge-success" style={{ fontSize: '.7125rem' }}>Completed</span>;
       const responses = JSON.parse(job.task.result);
-      result = responses.data.map((res) => (
-        <div key={res.hostname}>
-          <SuccessHighlighter result={res} />
-        </div>
-      ))
-
+      if (responses.data.length !== 0) {
+        result = responses.data.map((res) => (
+          <div key={res.hostname}>
+            <SuccessHighlighter result={res} />
+          </div>
+        ))
+      } else {
+        result = <FailHighlighter result="Device group is empty" />;
+      };
     } else if (job.task.status === "FAILURE") {
       status = <span className="badge badge-danger" style={{ fontSize: '.7125rem' }}>Failure</span>
       result = <FailHighlighter result={JSON.stringify(JSON.parse(job.task.result), undefined, 2)} />;
