@@ -15,3 +15,4 @@ def execute_juniper(task, command: str, login_data: dict) -> None:
         platform="junos",
     )
     task.run(task=scrapli_send_command, command=command)
+    task.host.close_connection("scrapli")
