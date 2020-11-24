@@ -131,11 +131,14 @@ export const runCommand = (group, command) => (dispatch, getState) => {
 
   axios
     .post(url, data, getConfig(getState))
-    .then((res) => dispatch(
-      createMessage({
-        taskCreated: `Task with ID ${res.data.task_id} created`
-      })
-    ))
+    .then((res) => {
+      dispatch(fetchJobs(getState().jobsList.group.id));
+      dispatch(
+        createMessage({
+          taskCreated: `Task with ID ${res.data.task_id} created`
+        })
+      );
+    })
     .catch((err) => {
       const errors = {
         msg: err.response.data,

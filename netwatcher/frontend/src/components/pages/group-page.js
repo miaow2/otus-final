@@ -63,7 +63,7 @@ class GroupPage extends Component {
       command: ""
     });
 
-    this.props.fetchJobs(this.props.groupId);
+    // this.props.fetchJobs(this.props.groupId);
     this.updateJobs()
     this.interval = setInterval(this.updateJobs, 5000)
   };
