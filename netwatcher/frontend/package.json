@@ -70,6 +70,7 @@
     "@testing-library/jest-dom": "^5.11.5",
     "@testing-library/react": "^11.1.1",
     "@testing-library/user-event": "^12.2.0",
+    "moment-locales-webpack-plugin": "^1.2.0",
     "redux-devtools-extension": "^2.13.8",
     "webpack-cli": "^3.3.12"
   }
