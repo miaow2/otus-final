@@ -21,6 +21,7 @@ DEBUG = getattr(configuration, "DEBUG")
 VAULT_ADDR = getattr(configuration, "VAULT_ADDR")
 VAULT_TOKEN = getattr(configuration, "VAULT_TOKEN")
 LOGGING = getattr(configuration, "LOGGING", {})
+DATABASE = getattr(configuration, "DATABASE")
 
 # Application definition
 INSTALLED_APPS = [
@@ -74,10 +75,7 @@ WSGI_APPLICATION = "netwatcher.wsgi.application"
 
 # Database
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
-    }
+    "default": DATABASE,
 }
 
 # Authentication backends

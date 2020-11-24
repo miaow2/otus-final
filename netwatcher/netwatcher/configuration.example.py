@@ -13,6 +13,15 @@ DEBUG = False
 
 ALLOWED_HOSTS = []
 
+DATABASE = {
+    "NAME": "",
+    "USER": "",
+    "PASSWORD": "",
+    "HOST": "localhost",
+    "PORT": "",
+    "CONN_MAX_AGE": 300,
+    "ENGINE": "django.db.backends.postgresql",
+}
 
 # Logging
 LOGGING = {
