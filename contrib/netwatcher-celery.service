@@ -1,0 +1,15 @@
+
+[Unit]
+Description=Celery Service
+After=network.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+WorkingDirectory=/opt/netwatcher/netwatcher
+ExecStart=/opt/netwatcher/.venv/bin/celery -A netwatcher worker -c 3 --scheduler django --loglevel=info --pidfile=/var/tmp/netwatcher-celery.pid
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
