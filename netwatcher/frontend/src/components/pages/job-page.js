@@ -16,7 +16,7 @@ const JobView = ({ job }) => {
 
   if (job.task) {
 
-    completed = <Moment format="hh:mm DD-MM-YYYY">{job.task.date_done}</Moment>
+    completed = <Moment format="HH:mm DD-MM-YYYY">{job.task.date_done}</Moment>
     status = job.task.status[0] + job.task.status.slice(1).toLowerCase()
     taken_time = <span><Moment duration={job.created} date={job.task.date_done} /> mins</span>
 
@@ -44,7 +44,7 @@ const JobView = ({ job }) => {
           <li className="list-group-item"><strong>Group:</strong> <Link to={`/groups/${job.group.id}`} >{job.group.name}</Link></li>
           <li className="list-group-item"><strong>Command:</strong> {job.command}</li>
           <li className="list-group-item"><strong>Status:</strong> {status}</li>
-          <li className="list-group-item"><strong>Created:</strong> <Moment format="hh:mm DD-MM-YYYY">{job.created}</Moment></li>
+          <li className="list-group-item"><strong>Created:</strong> <Moment format="HH:mm DD-MM-YYYY">{job.created}</Moment></li>
           <li className="list-group-item"><strong>Completed:</strong> {completed}</li>
           <li className="list-group-item"><strong>Taken Time:</strong> {taken_time}</li>
           <li className="list-group-item"><strong>User:</strong> {job.user.username}</li>

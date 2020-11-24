@@ -120,7 +120,7 @@ class GroupPage extends Component {
               let buttonDelete = null
 
               if (item.task) {
-                completed = <Moment format="hh:mm DD-MM-YYYY">{item.task.date_done}</Moment>
+                completed = <Moment format="HH:mm DD-MM-YYYY">{item.task.date_done}</Moment>
                 status = item.task.status[0] + item.task.status.slice(1).toLowerCase()
 
                 if (item.task.status === "SUCCESS") {
@@ -152,7 +152,7 @@ class GroupPage extends Component {
                   <td>{item.command}</td>
                   <td>{status}</td>
                   <td>{item.user.username}</td>
-                  <td><Moment format="hh:mm DD-MM-YYYY">{item.created}</Moment></td>
+                  <td><Moment format="HH:mm DD-MM-YYYY">{item.created}</Moment></td>
                   <td>{completed}</td>
                   <td>
                     {buttonDelete}
